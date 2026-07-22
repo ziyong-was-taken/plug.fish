@@ -17,11 +17,12 @@ Minimalistic Git-based fish plugin manager.
 - supports installing specific versions (specifically,
   [commitishes](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-commit-ishalsocommittish))
   of plugins
+- supports cloning via SSH and/or HTTPS
 
 ## Requirements
 
 - fish ≥ 3.5 (earlier versions untested)
-- Git (over SSH)
+- git
 
 ## Installation
 
@@ -29,7 +30,8 @@ Minimalistic Git-based fish plugin manager.
 
    ```fish
    set plugins github.com:ziyong-was-taken/plug.fish
-   source (path filter $__fish_user_data_dir/plugins/plug.fish/conf.d/plugin_load.fish || curl https://raw.githubusercontent.com/ziyong-was-taken/plug.fish/v3/conf.d/plugin_load.fish | psub)
+   source (path filter $__fish_user_data_dir/plugins/plug.fish/conf.d/plugin_load.fish
+           or curl https://raw.githubusercontent.com/ziyong-was-taken/plug.fish/v3/conf.d/plugin_load.fish | psub)
    ```
 
 2. Restart fish
@@ -46,14 +48,14 @@ Adding plugins is as easy as setting `$plugins`:
 # missing plugins are downloaded the next shell session
 set plugins \
     github.com:ziyong-was-taken/plug.fish \
-    github.com:other/plugin \
-    codeberg.org:git/repository@1.3.4
+    github.com/other/plugin \         # HTTPS instead of SSH (cf. / and :)
+    codeberg.org:git/repository@1.3.4 # specific version
 ```
 
 Update plugins by running `plugin_update`.
 This updates all unversioned plugins to `origin/HEAD`
 and versioned plugins to `origin/version/HEAD`.
-There's a special version `AUTO` which updates to the latest tag:
+The special version `AUTO` will update to the latest tag instead:
 
 ```shellsession
 $ plugin_update
