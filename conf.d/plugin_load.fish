@@ -9,8 +9,10 @@ set --global _plugins_dir $__fish_user_data_dir/plugins
 set --local user_conf (path basename $__fish_config_dir/conf.d/*.fish)
 
 for plugin in $plugins
-    # plugins are URLs of the form host.com:user/repo[@revision]
-    # default revision is HEAD
+    # plugins are URLs of the form
+    # - host.com:user/repo[@commitish] (SSH) or
+    # - host.com/user/repo[@commitish] (HTTPS)
+    # default commitish is HEAD
     set --local repo (string split -- @ $plugin) || set --local repo[2] HEAD
     set --local plugin_name (path basename $repo[1])
     set --local plugin_dir $_plugins_dir/$plugin_name
@@ -32,11 +34,15 @@ for plugin in $plugins
 
         # --filter blob:none -> only download files when needed
         # --revision $repo[2] --depth 1 -> only clone revision (no history)
-        # clones using SSH
-        git clone \
+        set --local clone_args clone \
             --quiet --filter blob:none \
-            --revision $repo[2] --depth 1 \
-            git@$repo[1] $plugin_dir
+            --revision $repo[2] --depth 1
+        switch $repo[1]
+            case '*:*' # SSH
+                git $clone_args git@$repo[1] $plugin_dir
+            case '*' # HTTPS
+                git $clone_args https://$repo[1] $plugin_dir
+        end
     end
 
     for conf in $plugin_dir/conf.d/*.fish
