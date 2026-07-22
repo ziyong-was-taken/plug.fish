@@ -14,7 +14,9 @@ Minimalistic Git-based fish plugin manager.
 - supports
   [Fisher plugins](https://github.com/jorgebucaran/fisher#creating-a-plugin)
 - <100 lines of code
-- supports installing specific versions of plugins
+- supports installing specific versions (specifically,
+  [commitishes](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-commit-ishalsocommittish))
+  of plugins
 
 ## Requirements
 
@@ -49,16 +51,21 @@ set plugins \
 ```
 
 Update plugins by running `plugin_update`.
-This updates all versioned plugins to their latest tag:
+This updates all unversioned plugins to `origin/HEAD`
+and versioned plugins to `origin/version/HEAD`.
+There's a special version `AUTO` which updates to the latest tag:
 
 ```shellsession
 $ plugin_update
-Updating example-plugin
-Updating to version 1.2.3
-Updating another-plugin
+Skipping pinned plugin foo
+Checking for update to bar@HEAD
+Already up to date
+Checking for update to baz@AUTO
+Found update to 1.3.0
+Updating from 1.2.0 to 42o1ee7
 ```
 
-Don't want some plugin to update?
+Don't want a plugin to update?
 Add it to `$plugins_pinned`:
 
 ```fish
