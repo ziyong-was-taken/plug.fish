@@ -15,7 +15,7 @@ function plugin_update
         set --local plugin_commitish $repo[2]
 
         # default to HEAD (of the 'origin' remote)
-        test -z "$plugin_commitish" || set plugin_commitish HEAD
+        test -z "$plugin_commitish" && set plugin_commitish HEAD
 
         echo Checking for update to (_bold_echo $plugin_name)@$plugin_commitish
 
