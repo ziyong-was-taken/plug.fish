@@ -55,7 +55,7 @@ set plugins \
 Update plugins by running `plugin_update`.
 This updates all unversioned plugins to `origin/HEAD`
 and versioned plugins to `origin/version/HEAD`.
-The special version `AUTO` will update to the latest tag instead:
+The special version `AUTO` will update to the latest annotated tag instead:
 
 ```shellsession
 $ plugin_update
