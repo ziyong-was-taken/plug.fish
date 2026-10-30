@@ -64,18 +64,18 @@ Checking for update to bar@HEAD
 Already up to date
 Checking for update to baz@AUTO
 Found update to 1.3.0
-Updating from 1.2.0 to 42o1ee7
+Updating from 1.2.0 to 4201ee7
 ```
 
-Don't want a plugin to update?
-Add it to `$plugins_pinned`:
+Notice how `foo` wasn't updated?
+That's because it was added to `$plugins_pinned`:
 
 ```fish
 set plugins \
-    github.com:ziyong-was-taken/plug.fish \
-    github.com:plugin/to-be-pinned@v2.0.0
+    ... \
+    github.com:plugin/foo@v2.0.0
 # use plugin name (without versioning) as identifier 
-set plugins_pinned to-be-pinned
+set plugins_pinned foo
 ```
 
 Remove a plugin from `$plugins` to disable it for the next shell session.
